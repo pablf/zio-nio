@@ -4,7 +4,7 @@ import zio.ZIO.attemptBlocking
 import zio.nio.charset.Charset
 import zio.nio.ZStreamHelper
 
-import zio.stream.{ZSink, ZStream}
+import zio.stream.ZStream
 import zio.{Chunk, Scope, Trace, ZIO}
 
 import java.io.IOException
@@ -23,7 +23,7 @@ import java.util.function.BiPredicate
 import scala.jdk.CollectionConverters._
 import scala.reflect._
 
-object Files {
+object Files extends FilesPlatformSpecific {
 
   def newDirectoryStream(dir: Path, glob: String = "*")(implicit
     trace: Trace
@@ -133,15 +133,6 @@ object Files {
 
   def deleteIfExists(path: Path)(implicit trace: Trace): ZIO[Any, IOException, Boolean] =
     attemptBlocking(JFiles.deleteIfExists(path.javaPath)).refineToOrDie[IOException]
-
-  def deleteRecursive(path: Path)(implicit trace: Trace): ZIO[Any, IOException, Long] =
-    newDirectoryStream(path).mapZIO { p =>
-      for {
-        deletedInSubDirectory <- deleteRecursive(p).whenZIO(isDirectory(p)).map(_.getOrElse(0L))
-        deletedFile           <- deleteIfExists(p).whenZIO(isRegularFile(p)).map(_.getOrElse(false)).map(if (_) 1 else 0)
-      } yield deletedInSubDirectory + deletedFile
-    }
-      .run(ZSink.sum) <* delete(path)
 
   def copy(source: Path, target: Path, copyOptions: CopyOption*)(implicit
     trace: Trace

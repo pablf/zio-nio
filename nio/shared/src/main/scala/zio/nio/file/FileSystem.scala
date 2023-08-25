@@ -11,7 +11,9 @@ import java.nio.file.attribute.UserPrincipalLookupService
 import java.nio.{file => jf}
 import scala.jdk.CollectionConverters._
 
-final class FileSystem private (private val javaFileSystem: jf.FileSystem) extends IOCloseable {
+final class FileSystem private (private val javaFileSystem: jf.FileSystem) extends IOCloseable with FileSystemPlatformSpecific {
+
+  override def jFileSystem: jf.FileSystem = javaFileSystem
 
   def provider: jf.spi.FileSystemProvider = javaFileSystem.provider()
 
@@ -37,9 +39,6 @@ final class FileSystem private (private val javaFileSystem: jf.FileSystem) exten
   def getPathMatcher(syntaxAndPattern: String): jf.PathMatcher = javaFileSystem.getPathMatcher(syntaxAndPattern)
 
   def getUserPrincipalLookupService: UserPrincipalLookupService = javaFileSystem.getUserPrincipalLookupService
-
-  def newWatchService(implicit trace: Trace): ZIO[Scope, IOException, WatchService] =
-    attemptBlockingIO(WatchService.fromJava(javaFileSystem.newWatchService())).toNioScoped
 
 }
 

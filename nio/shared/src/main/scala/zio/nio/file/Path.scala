@@ -7,6 +7,8 @@ import java.io.{File, IOError, IOException}
 import java.net.URI
 import java.nio.file.{LinkOption, Path => JPath, Paths, WatchEvent, Watchable => JWatchable}
 import scala.jdk.CollectionConverters._
+import zio.nio.file.{Watchable, WatchKey, WatchService}
+
 
 final class Path private (private[nio] val javaPath: JPath) extends Watchable {
   import Path._

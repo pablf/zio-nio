@@ -363,6 +363,12 @@ abstract class Buffer[A] private[nio] () {
 
 object Buffer {
 
+  // Transforms NegativeArraySizeException to IllegalArgumentException due to scala-native specifications.
+  private def transformError[A](effect: UIO[A]): UIO[A] =
+    effect.catchSomeDefect {
+      case e: NegativeArraySizeException => ZIO.succeed(throw new IllegalArgumentException())
+    } 
+
   /**
    * Allocates a byte buffer backed by a new array.
    *
@@ -374,9 +380,7 @@ object Buffer {
    *   The number of bytes to allocate.
    */
   def byte(capacity: Int)(implicit trace: Trace): UIO[ByteBuffer] =
-    ZIO.succeed(byteFromJava(JByteBuffer.allocate(capacity))).catchSomeDefect {
-      case e: NegativeArraySizeException => ZIO.succeed(throw new IllegalArgumentException())
-    }
+    Buffer transformError ZIO.succeed(byteFromJava(JByteBuffer.allocate(capacity)))
 
   /**
    * Creates a new array-backed buffer containing data copied from a chunk.
@@ -388,7 +392,7 @@ object Buffer {
    *   The data to copy into the new buffer.
    */
   def byte(chunk: Chunk[Byte])(implicit trace: Trace): UIO[ByteBuffer] =
-    ZIO.succeed(byteFromJava(JByteBuffer.wrap(chunk.toArray)))
+    Buffer transformError ZIO.succeed(byteFromJava(JByteBuffer.wrap(chunk.toArray)))
 
   /**
    * Allocates a direct byte buffer.
@@ -401,7 +405,7 @@ object Buffer {
    *   The number of bytes to allocate.
    */
   def byteDirect(capacity: Int)(implicit trace: Trace): UIO[ByteBuffer] =
-    ZIO.succeed(byteFromJava(JByteBuffer.allocateDirect(capacity)))
+    Buffer transformError ZIO.succeed(byteFromJava(JByteBuffer.allocateDirect(capacity)))
 
   /**
    * Wraps an existing Java `ByteBuffer`.
@@ -421,7 +425,7 @@ object Buffer {
    *   The number of characters to allocate.
    */
   def char(capacity: Int)(implicit trace: Trace): UIO[CharBuffer] =
-    ZIO.succeed(charFromJava(JCharBuffer.allocate(capacity)))
+    Buffer transformError ZIO.succeed(charFromJava(JCharBuffer.allocate(capacity)))
 
   /**
    * Creates a new array-backed buffer containing data copied from a chunk.
@@ -433,7 +437,7 @@ object Buffer {
    *   The data to copy into the new buffer.
    */
   def char(chunk: Chunk[Char])(implicit trace: Trace): UIO[CharBuffer] =
-    ZIO.succeed(charFromJava(JCharBuffer.wrap(chunk.toArray)))
+    Buffer transformError ZIO.succeed(charFromJava(JCharBuffer.wrap(chunk.toArray)))
 
   /**
    * Creates a read-only character buffer wrapping a character sequence.
@@ -454,7 +458,7 @@ object Buffer {
     start: Int,
     end: Int
   )(implicit trace: Trace): UIO[CharBuffer] =
-    ZIO.succeed(charFromJava(JCharBuffer.wrap(charSequence, start, end)))
+    Buffer transformError ZIO.succeed(charFromJava(JCharBuffer.wrap(charSequence, start, end)))
 
   /**
    * Creates a read-only character buffer wrapping a character sequence.
@@ -465,7 +469,7 @@ object Buffer {
    *   The characters to wrap.
    */
   def char(charSequence: CharSequence)(implicit trace: Trace): UIO[CharBuffer] =
-    ZIO.succeed(new CharBuffer(JCharBuffer.wrap(charSequence)))
+    Buffer transformError ZIO.succeed(new CharBuffer(JCharBuffer.wrap(charSequence)))
 
   /**
    * Wraps an existing Java `CharBuffer`.
@@ -485,7 +489,7 @@ object Buffer {
    *   The number of floats to allocate.
    */
   def float(capacity: Int)(implicit trace: Trace): UIO[FloatBuffer] =
-    ZIO.succeed(floatFromJava(JFloatBuffer.allocate(capacity)))
+    Buffer transformError ZIO.succeed(floatFromJava(JFloatBuffer.allocate(capacity)))
 
   /**
    * Creates a new array-backed buffer containing data copied from a chunk.
@@ -497,7 +501,7 @@ object Buffer {
    *   The data to copy into the new buffer.
    */
   def float(chunk: Chunk[Float])(implicit trace: Trace): UIO[FloatBuffer] =
-    ZIO.succeed(floatFromJava(JFloatBuffer.wrap(chunk.toArray)))
+    Buffer transformError ZIO.succeed(floatFromJava(JFloatBuffer.wrap(chunk.toArray)))
 
   /**
    * Wraps an existing Java `FloatBuffer`.
@@ -517,7 +521,7 @@ object Buffer {
    *   The number of doubles to allocate.
    */
   def double(capacity: Int)(implicit trace: Trace): UIO[DoubleBuffer] =
-    ZIO.succeed(doubleFromJava(JDoubleBuffer.allocate(capacity)))
+    Buffer transformError ZIO.succeed(doubleFromJava(JDoubleBuffer.allocate(capacity)))
 
   /**
    * Creates a new array-backed buffer containing data copied from a chunk.
@@ -529,7 +533,7 @@ object Buffer {
    *   The data to copy into the new buffer.
    */
   def double(chunk: Chunk[Double])(implicit trace: Trace): UIO[DoubleBuffer] =
-    ZIO.succeed(doubleFromJava(JDoubleBuffer.wrap(chunk.toArray)))
+    Buffer transformError ZIO.succeed(doubleFromJava(JDoubleBuffer.wrap(chunk.toArray)))
 
   /**
    * Wraps an existing Java `DoubleBuffer`.
@@ -549,7 +553,7 @@ object Buffer {
    *   The number of ints to allocate.
    */
   def int(capacity: Int)(implicit trace: Trace): UIO[IntBuffer] =
-    ZIO.succeed(intFromJava(JIntBuffer.allocate(capacity)))
+    Buffer transformError ZIO.succeed(intFromJava(JIntBuffer.allocate(capacity)))
 
   /**
    * Creates a new array-backed buffer containing data copied from a chunk.
@@ -561,7 +565,7 @@ object Buffer {
    *   The data to copy into the new buffer.
    */
   def int(chunk: Chunk[Int])(implicit trace: Trace): UIO[IntBuffer] =
-    ZIO.succeed(intFromJava(JIntBuffer.wrap(chunk.toArray)))
+    Buffer transformError ZIO.succeed(intFromJava(JIntBuffer.wrap(chunk.toArray)))
 
   /**
    * Wraps an existing Java `IntBuffer`.
@@ -581,7 +585,7 @@ object Buffer {
    *   The number of longs to allocate.
    */
   def long(capacity: Int)(implicit trace: Trace): UIO[LongBuffer] =
-    ZIO.succeed(longFromJava(JLongBuffer.allocate(capacity)))
+    Buffer transformError ZIO.succeed(longFromJava(JLongBuffer.allocate(capacity)))
 
   /**
    * Creates a new array-backed buffer containing data copied from a chunk.
@@ -593,7 +597,7 @@ object Buffer {
    *   The data to copy into the new buffer.
    */
   def long(chunk: Chunk[Long])(implicit trace: Trace): UIO[LongBuffer] =
-    ZIO.succeed(longFromJava(JLongBuffer.wrap(chunk.toArray)))
+    Buffer transformError ZIO.succeed(longFromJava(JLongBuffer.wrap(chunk.toArray)))
 
   /**
    * Wraps an existing Java `LongBuffer`.
@@ -613,7 +617,7 @@ object Buffer {
    *   The number of shorts to allocate.
    */
   def short(capacity: Int)(implicit trace: Trace): UIO[ShortBuffer] =
-    ZIO.succeed(shortFromJava(JShortBuffer.allocate(capacity)))
+    Buffer transformError ZIO.succeed(shortFromJava(JShortBuffer.allocate(capacity)))
 
   /**
    * Creates a new array-backed buffer containing data copied from a chunk.
@@ -625,7 +629,7 @@ object Buffer {
    *   The data to copy into the new buffer.
    */
   def short(chunk: Chunk[Short])(implicit trace: Trace): UIO[ShortBuffer] =
-    ZIO.succeed(shortFromJava(JShortBuffer.wrap(chunk.toArray)))
+    Buffer transformError ZIO.succeed(shortFromJava(JShortBuffer.wrap(chunk.toArray)))
 
   /**
    * Wraps an existing Java `ShortBuffer`.

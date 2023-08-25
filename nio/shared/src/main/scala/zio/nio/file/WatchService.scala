@@ -16,6 +16,7 @@ import java.nio.file.{
 import java.util.concurrent.TimeUnit
 import scala.jdk.CollectionConverters._
 
+
 trait Watchable {
   protected def javaWatchable: JWatchable
 
@@ -160,10 +161,7 @@ final class WatchService private (private[file] val javaWatchService: JWatchServ
 
 }
 
-object WatchService {
-
-  def forDefaultFileSystem(implicit trace: Trace): ZIO[Scope, IOException, WatchService] =
-    FileSystem.default.newWatchService
+object WatchService extends WatchServicePlatformSpecific {
 
   def fromJava(javaWatchService: JWatchService): WatchService = new WatchService(javaWatchService)
 
