@@ -69,7 +69,11 @@ jobs:
         uses: pierotofy/set-swap-space@master
         with:
           swap-size-gb: 9
+      - name: Tests2
+        if: matrix.platform == 'Native'
+        run: ./sbt ++${{ matrix.scala }} zioNio${{ matrix.platform }}/test
       - name: Tests
+        if: matrix.platform != 'Native'
         run: ./sbt ++${{ matrix.scala }} zioNio${{ matrix.platform }}/test
 
   ci:
