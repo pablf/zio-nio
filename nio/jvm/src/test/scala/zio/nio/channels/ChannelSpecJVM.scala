@@ -1,7 +1,7 @@
 package zio.nio.channels
 
 import zio._
-import zio.nio.{BaseSpec, Buffer, SocketAddress}
+import zio.nio.{BaseSpec, Buffer, InetSocketAddress, SocketAddress}
 import zio.test.Assertion._
 import zio.test._
 
@@ -12,6 +12,14 @@ object ChannelSpecJVM extends BaseSpec {
 
   override def spec =
     suite("Channel")(
+      test("localAddress") {
+        SocketChannel.open.flatMap { con =>
+          for {
+            _            <- con.bindAuto
+            localAddress <- con.localAddress
+          } yield assert(localAddress)(isSome(isSubtype[InetSocketAddress](anything)))
+        }
+      },
       suite("AsynchronousSocketChannel")(
         test("read/write") {
           def echoServer(started: Promise[Nothing, SocketAddress])(implicit trace: Trace): IO[Exception, Unit] =
@@ -169,6 +177,39 @@ object ChannelSpecJVM extends BaseSpec {
                   fiber <- ZIO.scoped(serverChannel.accept).fork
                   _     <- ZIO.sleep(500.milliseconds)
                   exit  <- fiber.interrupt
+                } yield assert(exit)(isInterrupted)
+              }
+            }
+          }
+        }
+      ),
+      suite("blocking operations")(
+        test("read can be interrupted") {
+          live {
+            for {
+              promise <- Promise.make[Nothing, Unit]
+              fiber <- ZIO.scoped {
+                         Pipe.open
+                           .flatMap(_.source)
+                           .flatMapNioBlockingOps(ops => promise.succeed(()) *> ops.readChunk(1))
+
+                       }.fork
+              _    <- promise.await
+              _    <- ZIO.sleep(500.milliseconds)
+              exit <- fiber.interrupt
+            } yield assert(exit)(isInterrupted)
+          }
+        },
+        test("accept can be interrupted") {
+          live {
+            ZIO.scoped {
+              ServerSocketChannel.open.tap(_.bindAuto()).flatMap { serverChannel =>
+                for {
+                  promise <- Promise.make[Nothing, Unit]
+                  fiber   <- serverChannel.flatMapBlocking(ops => promise.succeed(()) *> ZIO.scoped(ops.accept)).fork
+                  _       <- promise.await
+                  _       <- ZIO.sleep(500.milliseconds)
+                  exit    <- fiber.interrupt
                 } yield assert(exit)(isInterrupted)
               }
             }
