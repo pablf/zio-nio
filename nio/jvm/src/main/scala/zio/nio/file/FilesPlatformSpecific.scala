@@ -6,7 +6,8 @@ import Files._
 import zio.stream.ZSink
 import java.io.IOException
 
-trait FilesPlatformSpecific { self =>
+trait FilesPlatformSpecific {
+
     def deleteRecursive(path: Path)(implicit trace: Trace): ZIO[Any, IOException, Long] =
     newDirectoryStream(path).mapZIO { p =>
       for {
@@ -15,4 +16,5 @@ trait FilesPlatformSpecific { self =>
       } yield deletedInSubDirectory + deletedFile
     }
       .run(ZSink.sum) <* delete(path)
+      
 }
