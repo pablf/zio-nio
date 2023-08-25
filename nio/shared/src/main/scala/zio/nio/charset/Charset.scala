@@ -7,12 +7,10 @@ package charset
 import java.nio.charset.IllegalCharsetNameException
 import java.nio.{charset => j}
 import java.{util => ju}
-import scala.collection.JavaConverters._
-import scala.annotation.nowarn
+import scala.jdk.CollectionConverters._
 
 final class Charset private (val javaCharset: j.Charset) extends Ordered[Charset] {
 
-  @nowarn
   def aliases: Set[String] = javaCharset.aliases().asScala.toSet
 
   def canEncode: Boolean = javaCharset.canEncode
@@ -83,9 +81,8 @@ object Charset {
 
   def fromJava(javaCharset: j.Charset): Charset = new Charset(javaCharset)
 
-  @nowarn
   val availableCharsets: Map[String, Charset] =
-    j.Charset.availableCharsets().asScala.mapValues(new Charset(_)).toMap
+    j.Charset.availableCharsets().asScala.view.mapValues(new Charset(_)).toMap
 
   val defaultCharset: Charset = fromJava(j.Charset.defaultCharset())
 
