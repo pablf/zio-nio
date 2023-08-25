@@ -48,7 +48,7 @@ jobs:
       fail-fast: false
       matrix:
         java: ['adopt@1.8', '11', '17']
-        scala: ['2.12.15', '2.13.7', '3.1.1']
+        scala: ['2.12.15', '2.13.7', '3.2.0']
         platform: ['JVM', 'Native']
     steps:
       - name: Checkout current branch
@@ -69,9 +69,6 @@ jobs:
         uses: pierotofy/set-swap-space@master
         with:
           swap-size-gb: 9
-      - name: Tests2
-        if: matrix.platform == 'Native'
-        run: ./sbt ++${{ matrix.scala }} zioNio${{ matrix.platform }}/test
       - name: Tests
         if: matrix.platform != 'Native'
         run: ./sbt ++${{ matrix.scala }} zioNio${{ matrix.platform }}/test
