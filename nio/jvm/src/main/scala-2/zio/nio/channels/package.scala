@@ -1,10 +1,8 @@
 package zio.nio
 
-
 import zio.{Trace, ZIO}
 
 import java.io.IOException
-
 
 package object channels {
 

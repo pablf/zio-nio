@@ -3,7 +3,6 @@ package channels
 
 import zio.nio.channels.SelectionKey.Operation
 import zio.nio.channels.spi.SelectorProvider
-
 import zio.{Exit, Fiber, IO, Scope, Trace, UIO, ZIO}
 
 import java.io.IOException
@@ -14,8 +13,6 @@ import java.nio.channels.{
   ServerSocketChannel => JServerSocketChannel,
   SocketChannel => JSocketChannel
 }
-
-
 
 /**
  * A channel that can be multiplexed via a [[zio.nio.channels.Selector]].

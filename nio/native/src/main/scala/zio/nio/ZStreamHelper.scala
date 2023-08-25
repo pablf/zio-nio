@@ -1,12 +1,13 @@
 package zio.nio
 
 import zio.stream.ZStream
-import zio.{Scope, ZIO, Trace}
+import zio.{Scope, Trace, ZIO}
 
 /**
  * A mutable buffer of shorts.
  */
 object ZStreamHelper {
+
   /**
    * Creates a stream from a Java stream
    */

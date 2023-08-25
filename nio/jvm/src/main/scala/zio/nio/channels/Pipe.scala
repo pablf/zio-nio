@@ -1,12 +1,10 @@
 package zio.nio
 package channels
 
-
 import zio.{IO, Scope, Trace, ZIO}
 
 import java.io.IOException
 import java.nio.channels.{Pipe => JPipe}
-
 
 final class Pipe private (private val pipe: JPipe)(implicit trace: Trace) {
 

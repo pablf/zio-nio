@@ -2,7 +2,6 @@ package zio.nio
 
 package channels
 
-
 import zio.stream.{Stream, ZStream}
 import zio.{Chunk, IO, Trace, UIO, ZIO}
 

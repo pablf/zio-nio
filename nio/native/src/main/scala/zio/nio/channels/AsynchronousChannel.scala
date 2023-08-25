@@ -16,14 +16,9 @@ import java.nio.channels.{
  * The read and write operations will never block the calling thread.
  */
 abstract class AsynchronousByteChannel private[channels] (protected val channel: JAsynchronousByteChannel)
-    extends Channel {
+    extends Channel {}
 
-}
-
-object AsynchronousByteChannel {
-
-
-}
+object AsynchronousByteChannel {}
 
 final class AsynchronousServerSocketChannel(protected val channel: JAsynchronousServerSocketChannel) extends Channel {
 
@@ -110,8 +105,6 @@ final class AsynchronousSocketChannel(override protected val channel: JAsynchron
           .map(SocketAddress.fromJava)
       )
       .refineToOrDie[IOException]
-
-
 
 }
 

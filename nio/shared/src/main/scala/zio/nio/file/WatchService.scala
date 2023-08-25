@@ -2,7 +2,6 @@ package zio.nio.file
 
 import zio._
 import zio.nio.IOCloseable
-
 import zio.stream.ZStream
 
 import java.io.IOException
@@ -15,7 +14,6 @@ import java.nio.file.{
 }
 import java.util.concurrent.TimeUnit
 import scala.jdk.CollectionConverters._
-
 
 trait Watchable {
   protected def javaWatchable: JWatchable
