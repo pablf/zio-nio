@@ -12,7 +12,7 @@ import scala.annotation.nowarn
 
 final class Charset private (val javaCharset: j.Charset) extends Ordered[Charset] {
 
-  @nowarn("object JavaConverters in package collection is deprecated")
+  @nowarn
   def aliases: Set[String] = javaCharset.aliases().asScala.toSet
 
   def canEncode: Boolean = javaCharset.canEncode
@@ -83,7 +83,7 @@ object Charset {
 
   def fromJava(javaCharset: j.Charset): Charset = new Charset(javaCharset)
 
-  @nowarn("deprecated")
+  @nowarn
   val availableCharsets: Map[String, Charset] =
     j.Charset.availableCharsets().asScala.mapValues(new Charset(_)).toMap
 

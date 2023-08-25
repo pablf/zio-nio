@@ -34,7 +34,7 @@ package object nio {
      * This will catch an `EOFException` failure from the effect and translate it to a failure of `None`. Other
      * exception types are wrapped in `Some`.
      */
-    @nowarn("parameter value ev in method .* is never used")
+    @nowarn
     def eofCheck[E2 >: E](implicit ev: EOFException <:< E2, trace: Trace): ZIO[R, Option[E2], A] =
       effect.catchAll {
         case _: EOFException => ZIO.fail(None)

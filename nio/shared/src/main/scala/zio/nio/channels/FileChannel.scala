@@ -228,7 +228,7 @@ object FileChannel {
    * @param attrs
    *   An optional list of file attributes to set atomically when creating the file
    */
-  @nowarn("object JavaConverters in package collection is deprecated")
+  @nowarn
   def open(
     path: Path,
     options: Set[_ <: OpenOption],
