@@ -200,25 +200,15 @@ object BuildHelper {
     platformSpecificSources(platform, conf, baseDir)(versions: _*)
   }
 
+
   def stdSettings(prjName: String) =
     Seq(
       name                     := s"$prjName",
       crossScalaVersions       := Seq(Scala212, Scala213),
       ThisBuild / scalaVersion := Scala213,
       scalacOptions            := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
-
-      semanticdbEnabled := scalaVersion.value != Scala3, // enable SemanticDB
-      semanticdbOptions += "-P:semanticdb:synthetics:on",
-      semanticdbVersion                      := scalafixSemanticdb.revision, // use Scalafix compatible version
-      ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
-      ThisBuild / scalafixDependencies ++= List(
-        "com.github.liancheng" %% "organize-imports" % "0.6.0",
-        "com.github.vovapolu"  %% "scaluzzi"         % "0.1.20"
-      ),
       Test / parallelExecution := true,
       incOptions ~= (_.withLogRecompileOnMacro(false)),
-      autoAPIMappings := true,
-      unusedCompileDependenciesFilter -= moduleFilter("org.scala-js", "scalajs-library")
     )
 
   def welcomeMessage =
