@@ -6,6 +6,7 @@ import zio.{IO, Trace, ZIO}
 
 import java.net.{NetworkInterface => JNetworkInterface, SocketException}
 import scala.collection.JavaConverters._
+import scala.annotation.nowarn
 
 class NetworkInterface private[nio] (private[nio] val jNetworkInterface: JNetworkInterface) {
 

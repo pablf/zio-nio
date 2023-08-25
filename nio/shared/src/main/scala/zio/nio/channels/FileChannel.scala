@@ -11,6 +11,7 @@ import java.nio.channels.{FileChannel => JFileChannel}
 import java.nio.file.OpenOption
 import java.nio.file.attribute.FileAttribute
 import scala.jdk.CollectionConverters._
+import scala.annotation.nowarn
 
 /**
  * A channel for reading, writing, mapping, and manipulating a file.

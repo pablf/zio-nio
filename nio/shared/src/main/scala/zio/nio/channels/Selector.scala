@@ -10,6 +10,7 @@ import java.io.IOException
 import java.nio.channels.{SelectionKey => JSelectionKey, Selector => JSelector}
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
+import scala.annotation.nowarn
 
 /**
  * A multiplexor of `SelectableChannel` objects.

@@ -3,6 +3,7 @@ package zio
 
 
 import java.io.EOFException
+import scala.annotation.nowarn
 
 /**
  * ZIO-NIO, the API for using Java's NIO API in ZIO programs.
