@@ -366,7 +366,7 @@ object Buffer {
   // Transforms NegativeArraySizeException to IllegalArgumentException due to scala-native specifications.
   private def transformError[A](effect: UIO[A]): UIO[A] =
     effect.catchSomeDefect {
-      case e: NegativeArraySizeException => ZIO.succeed(throw new IllegalArgumentException())
+      case _: NegativeArraySizeException => ZIO.succeed(throw new IllegalArgumentException())
     } 
 
   /**

@@ -4,10 +4,6 @@ package zio.nio.channels
 import zio.{Trace, UIO, ZIO}
 
 import java.nio.{channels => jc}
-import zio.nio.channels.Selector
-import zio.nio.channels.{SelectableChannel, SocketChannel, ServerSocketChannel}
-import zio.nio.channels.DatagramChannel
-import zio.nio.channels.Pipe
 
 
 

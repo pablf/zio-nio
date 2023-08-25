@@ -16,7 +16,7 @@ import java.nio.file.{StandardWatchEventKinds, WatchEvent}
  * type of event for each directory member since the last poll.
  */
 object StreamDirWatch extends ZIOAppDefault {
-
+  
   private def watch(dir: Path) =
     ZIO.scoped {
       WatchService.forDefaultFileSystem.flatMap { service =>

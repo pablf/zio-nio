@@ -14,8 +14,6 @@ import java.nio.channels.{
   ServerSocketChannel => JServerSocketChannel,
   SocketChannel => JSocketChannel
 }
-import zio.nio.channels.Selector
-import zio.nio.channels.SelectionKey
 
 
 

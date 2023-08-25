@@ -6,7 +6,6 @@ import zio.{IO, Scope, Trace, ZIO}
 
 import java.io.IOException
 import java.nio.channels.{Pipe => JPipe}
-import zio.nio.channels.SelectableChannel
 
 
 final class Pipe private (private val pipe: JPipe)(implicit trace: Trace) {

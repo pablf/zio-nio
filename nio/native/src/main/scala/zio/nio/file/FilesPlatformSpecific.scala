@@ -1,6 +1,6 @@
 package zio.nio.file
 
-import java.nio.file.{Files, SimpleFileVisitor, Path => JPath}
+import java.nio.file.{Files => JFiles, SimpleFileVisitor, Path => JPath}
 import java.io.IOException
 import zio.{Trace, ZIO}
 import java.nio.file.FileVisitResult
@@ -14,7 +14,7 @@ trait FilesPlatformSpecific {
       val visitator: FileVisitor[JPath] = new SimpleFileVisitor[JPath]() {
         
         override def visitFile(file: JPath, attrs: BasicFileAttributes) = {
-          Files.delete(file)
+          JFiles.delete(file)
           FileVisitResult.CONTINUE
         }
 
@@ -22,7 +22,7 @@ trait FilesPlatformSpecific {
           FileVisitResult.CONTINUE
         
       }
-      Files.walkFileTree(path.javaPath, visitator)
+      JFiles.walkFileTree(path.javaPath, visitator)
       0L
     }.refineToOrDie[IOException]
 
