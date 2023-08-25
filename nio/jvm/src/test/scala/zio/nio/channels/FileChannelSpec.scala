@@ -14,7 +14,7 @@ import scala.io.Source
 
 object FileChannelSpec extends BaseSpec {
 
-  private val readFile = Path("nio/src/test/resources/async_file_read_test.txt")
+  private val readFile = Path("nio/shared/src/test/resources/async_file_read_test.txt")
 
   private val readFileContents = "Hello World"
 
@@ -49,7 +49,7 @@ object FileChannelSpec extends BaseSpec {
         }
       },
       test("asynchronous file write") {
-        val path = Path("nio/src/test/resources/async_file_write_test.txt")
+        val path = Path("nio/shared/src/test/resources/async_file_write_test.txt")
         AsynchronousFileChannel
           .open(
             path,
@@ -105,7 +105,7 @@ object FileChannelSpec extends BaseSpec {
           """Yet such is oft the course of deeds that move the wheels of the world:
             | small hands do them because they must, while the eyes of the great are elsewhere.""".stripMargin
         val stream = ZStream.fromIterable(testData).via(Charset.Standard.utf8.newEncoder.transducer())
-        val file   = Path("nio/src/test/resources/sink_write_test.txt")
+        val file   = Path("nio/shared/src/test/resources/sink_write_test.txt")
         FileChannel
           .open(file, StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW)
           .flatMapNioBlockingOps(channel => stream.run(channel.sink()))

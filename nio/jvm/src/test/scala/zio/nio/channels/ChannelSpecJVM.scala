@@ -6,6 +6,8 @@ import zio.test.Assertion._
 import zio.test._
 
 import java.io.IOException
+import java.nio.channels
+import java.{nio => jnio}
 
 
 object ChannelSpecJVM extends BaseSpec {
@@ -194,6 +196,52 @@ object ChannelSpecJVM extends BaseSpec {
                            .flatMapNioBlockingOps(ops => promise.succeed(()) *> ops.readChunk(1))
 
                        }.fork
+              _    <- promise.await
+              _    <- ZIO.sleep(500.milliseconds)
+              exit <- fiber.interrupt
+            } yield assert(exit)(isInterrupted)
+          }
+        },
+        test("write can be interrupted") {
+          val hangingOps: GatheringByteOps = new GatheringByteOps {
+            override protected[channels] val channel = new jnio.channels.GatheringByteChannel {
+
+              @volatile private var _closed = false
+
+              private def hang(): Nothing = {
+                while (!_closed)
+                  Thread.sleep(10L)
+                throw new jnio.channels.AsynchronousCloseException()
+              }
+
+              override def write(srcs: Array[jnio.ByteBuffer], offset: Int, length: Int): Long = hang()
+
+              override def write(srcs: Array[jnio.ByteBuffer]): Long = hang()
+
+              override def write(src: jnio.ByteBuffer): Int = hang()
+
+              override def isOpen: Boolean = !_closed
+
+              override def close(): Unit = _closed = true
+            }
+          }
+          val hangingChannel = new BlockingChannel {
+            override type BlockingOps = GatheringByteOps
+
+            override def flatMapBlocking[R, E >: IOException, A](
+              f: GatheringByteOps => ZIO[R, E, A]
+            )(implicit trace: Trace): ZIO[R, E, A] = nioBlocking(f(hangingOps))
+
+            override protected val channel: channels.Channel = hangingOps.channel
+          }
+
+          live {
+            for {
+              promise <- Promise.make[Nothing, Unit]
+              fiber <-
+                hangingChannel
+                  .flatMapBlocking(ops => promise.succeed(()) *> ops.writeChunk(Chunk.single(42.toByte)))
+                  .fork
               _    <- promise.await
               _    <- ZIO.sleep(500.milliseconds)
               exit <- fiber.interrupt

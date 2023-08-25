@@ -15,9 +15,9 @@ object WathServiceSpec extends BaseSpec {
       test("Watch Service register")(
         FileSystem.default.newWatchService.flatMap { watchService =>
           for {
-            watchKey <- Path("nio/src/test/resources").register(watchService, ENTRY_CREATE)
+            watchKey <- Path("nio/shared/src/test/resources").register(watchService, ENTRY_CREATE)
             watchable = watchKey.watchable
-          } yield assert(watchable)(equalTo(Path("nio/src/test/resources")))
+          } yield assert(watchable)(equalTo(Path("nio/shared/src/test/resources")))
         }
       )
     )
