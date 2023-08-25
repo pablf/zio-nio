@@ -8,6 +8,7 @@ import java.nio.charset.IllegalCharsetNameException
 import java.nio.{charset => j}
 import java.{util => ju}
 import scala.jdk.CollectionConverters._
+import scala.annotation.nowarn
 
 final class Charset private (val javaCharset: j.Charset) extends Ordered[Charset] {
 
@@ -81,6 +82,7 @@ object Charset {
 
   def fromJava(javaCharset: j.Charset): Charset = new Charset(javaCharset)
 
+  @nowarn
   val availableCharsets: Map[String, Charset] =
     j.Charset.availableCharsets().asScala.mapValues(new Charset(_)).toMap
 
