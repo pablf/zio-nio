@@ -1,7 +1,7 @@
 package zio.nio
 package channels
 
-import com.github.ghik.silencer.silent
+
 import zio.nio.channels.spi.SelectorProvider
 
 import zio.{Duration, IO, Scope, Trace, UIO, ZIO}
@@ -27,7 +27,7 @@ final class Selector(private[nio] val selector: JSelector) extends IOCloseable {
   def provider(implicit trace: Trace): UIO[SelectorProvider] =
     ZIO.succeed(selector.provider()).map(new SelectorProvider(_))
 
-  @silent
+  @nowarn
   def keys(implicit trace: Trace): UIO[Set[SelectionKey]] =
     ZIO
       .succeed(selector.keys())
@@ -40,7 +40,7 @@ final class Selector(private[nio] val selector: JSelector) extends IOCloseable {
    * an object to the key set will cause an `UnsupportedOperationException` to be thrown. The selected-key set is not
    * thread-safe.
    */
-  @silent
+  @nowarn
   def selectedKeys(implicit trace: Trace): UIO[mutable.Set[SelectionKey]] =
     ZIO
       .succeed(selector.selectedKeys())

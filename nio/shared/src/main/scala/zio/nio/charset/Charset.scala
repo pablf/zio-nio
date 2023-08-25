@@ -2,7 +2,7 @@ package zio
 package nio
 package charset
 
-import com.github.ghik.silencer.silent
+
 
 import java.nio.charset.IllegalCharsetNameException
 import java.nio.{charset => j}
@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
 
 final class Charset private (val javaCharset: j.Charset) extends Ordered[Charset] {
 
-  @silent("object JavaConverters in package collection is deprecated")
+  @nowarn("object JavaConverters in package collection is deprecated")
   def aliases: Set[String] = javaCharset.aliases().asScala.toSet
 
   def canEncode: Boolean = javaCharset.canEncode
@@ -82,7 +82,7 @@ object Charset {
 
   def fromJava(javaCharset: j.Charset): Charset = new Charset(javaCharset)
 
-  @silent("deprecated")
+  @nowarn("deprecated")
   val availableCharsets: Map[String, Charset] =
     j.Charset.availableCharsets().asScala.mapValues(new Charset(_)).toMap
 

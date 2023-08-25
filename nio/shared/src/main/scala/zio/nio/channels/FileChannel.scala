@@ -1,6 +1,6 @@
 package zio.nio.channels
 
-import com.github.ghik.silencer.silent
+
 import zio.nio.file.Path
 import zio.nio.{ByteBuffer, IOCloseableManagement, MappedByteBuffer}
 
@@ -227,7 +227,7 @@ object FileChannel {
    * @param attrs
    *   An optional list of file attributes to set atomically when creating the file
    */
-  @silent("object JavaConverters in package collection is deprecated")
+  @nowarn("object JavaConverters in package collection is deprecated")
   def open(
     path: Path,
     options: Set[_ <: OpenOption],

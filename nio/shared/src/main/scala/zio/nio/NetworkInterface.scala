@@ -1,6 +1,6 @@
 package zio.nio
 
-import com.github.ghik.silencer.silent
+
 
 import zio.{IO, Trace, ZIO}
 
@@ -11,14 +11,14 @@ class NetworkInterface private[nio] (private[nio] val jNetworkInterface: JNetwor
 
   def name: String = jNetworkInterface.getName
 
-  @silent
+  @nowarn
   def inetAddresses: List[InetAddress] = jNetworkInterface.getInetAddresses.asScala.map(new InetAddress(_)).toList
 
-  @silent
+  @nowarn
   def interfaceAddresses: List[InterfaceAddress] =
     jNetworkInterface.getInterfaceAddresses.asScala.map(new InterfaceAddress(_)).toList
 
-  @silent
+  @nowarn
   def subInterfaces: Iterator[NetworkInterface] =
     jNetworkInterface.getSubInterfaces.asScala.map(new NetworkInterface(_))
 
@@ -69,7 +69,7 @@ object NetworkInterface {
       .refineToOrDie[SocketException]
       .map(new NetworkInterface(_))
 
-  @silent
+  @nowarn
   def networkInterfaces(implicit trace: Trace): IO[SocketException, Iterator[NetworkInterface]] =
     ZIO
       .attempt(JNetworkInterface.getNetworkInterfaces.asScala)
