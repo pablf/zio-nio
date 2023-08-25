@@ -16,5 +16,5 @@ trait FilesPlatformSpecific {
       } yield deletedInSubDirectory + deletedFile
     }
       .run(ZSink.sum) <* delete(path)
-      
+
 }

@@ -1,5 +1,6 @@
 package zio.nio.file
 
+import Files._
 import java.nio.file.{Files => JFiles, SimpleFileVisitor, Path => JPath}
 import java.io.IOException
 import zio.{Trace, ZIO}
@@ -22,7 +23,7 @@ trait FilesPlatformSpecific {
       }
 
   def deleteRecursive(path: Path)(implicit trace: Trace): ZIO[Any, IOException, Long] =
-    ZIO.attemptBlockingIO(JFiles.walkFileTree(path.javaPath, visitator)) *> ZIO.succeed(0L)
+    ZIO.attemptBlockingIO(JFiles.walkFileTree(path.javaPath, visitator)) *> ZIO.succeed(0L) <* delete(path)
     
 
 }
