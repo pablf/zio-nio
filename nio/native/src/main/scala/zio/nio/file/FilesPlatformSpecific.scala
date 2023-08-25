@@ -9,9 +9,7 @@ import java.nio.file.FileVisitor
 
 trait FilesPlatformSpecific {
 
-    def deleteRecursive(path: Path)(implicit trace: Trace): ZIO[Any, IOException, Long] =
-    ZIO.attemptBlocking {
-      val visitator: FileVisitor[JPath] = new SimpleFileVisitor[JPath]() {
+  private val visitator: FileVisitor[JPath] = new SimpleFileVisitor[JPath]() {
         
         override def visitFile(file: JPath, attrs: BasicFileAttributes) = {
           JFiles.delete(file)
@@ -22,8 +20,9 @@ trait FilesPlatformSpecific {
           FileVisitResult.CONTINUE
         
       }
-      JFiles.walkFileTree(path.javaPath, visitator)
-      0L
-    }.refineToOrDie[IOException]
+
+  def deleteRecursive(path: Path)(implicit trace: Trace): ZIO[Any, IOException, Long] =
+    ZIO.attemptBlockingIO(JFiles.walkFileTree(path.javaPath, visitator)) *> ZIO.succeed(0L)
+    
 
 }
