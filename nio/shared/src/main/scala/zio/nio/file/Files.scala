@@ -2,6 +2,7 @@ package zio.nio.file
 
 import zio.ZIO.attemptBlocking
 import zio.nio.charset.Charset
+import zio.nio.ZStreamHelper
 
 import zio.stream.{ZSink, ZStream}
 import zio.{Chunk, Scope, Trace, ZIO}
@@ -347,14 +348,14 @@ object Files {
   def lines(path: Path, charset: Charset = Charset.Standard.utf8)(implicit
     trace: Trace
   ): ZStream[Any, IOException, String] =
-    ZStream.
+    ZStreamHelper
       .fromJavaStreamScoped(
         ZIO.fromAutoCloseable(attemptBlocking(JFiles.lines(path.javaPath, charset.javaCharset)))
       )
       .refineToOrDie[IOException]
 
   def list(path: Path)(implicit trace: Trace): ZStream[Any, IOException, Path] =
-    ZStream
+    ZStreamHelper
       .fromJavaStreamScoped(
         ZIO.fromAutoCloseable(attemptBlocking(JFiles.list(path.javaPath)))
       )
@@ -366,7 +367,7 @@ object Files {
     maxDepth: Int = Int.MaxValue,
     visitOptions: Set[FileVisitOption] = Set.empty
   )(implicit trace: Trace): ZStream[Any, IOException, Path] =
-    ZStream
+    ZStreamHelper
       .fromJavaStreamScoped(
         ZIO.fromAutoCloseable(attemptBlocking(JFiles.walk(path.javaPath, maxDepth, visitOptions.toSeq: _*)))
       )
@@ -377,7 +378,7 @@ object Files {
     test: (Path, BasicFileAttributes) => Boolean
   )(implicit trace: Trace): ZStream[Any, IOException, Path] = {
     val matcher: BiPredicate[JPath, BasicFileAttributes] = (path, attr) => test(Path.fromJava(path), attr)
-    ZStream
+    ZStreamHelper
       .fromJavaStreamScoped(
         ZIO.fromAutoCloseable(
           attemptBlocking(JFiles.find(path.javaPath, maxDepth, matcher, visitOptions.toSeq: _*))

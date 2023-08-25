@@ -4,7 +4,7 @@ import zio.nio.file.Path
 import zio.nio.{BaseSpec, Buffer}
 import zio.test.Assertion._
 import zio.test._
-import zio.{Chunk, IO, Scope, ZIO}
+import zio.{Chunk, Scope, ZIO}
 
 import java.io.IOException
 import java.nio.file.{Files, StandardOpenOption}
