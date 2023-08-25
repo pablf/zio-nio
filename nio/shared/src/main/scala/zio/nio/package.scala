@@ -3,7 +3,6 @@ package zio
 
 
 import java.io.EOFException
-import scala.annotation.nowarn
 
 /**
  * ZIO-NIO, the API for using Java's NIO API in ZIO programs.
@@ -34,7 +33,6 @@ package object nio {
      * This will catch an `EOFException` failure from the effect and translate it to a failure of `None`. Other
      * exception types are wrapped in `Some`.
      */
-    @nowarn
     def eofCheck[E2 >: E](implicit ev: EOFException <:< E2, trace: Trace): ZIO[R, Option[E2], A] =
       effect.catchAll {
         case _: EOFException => ZIO.fail(None)

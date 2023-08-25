@@ -149,7 +149,7 @@ object AsynchronousByteChannel {
   )(op: C => CompletionHandler[A, Any] => Any)(implicit trace: Trace): IO[IOException, A] =
     ZIO
       .attempt(op(channel))
-      .flatMap(ZIO.asyncWithCompletionHandler)
+      .flatMap(ZIO.asyncWithCompletionHandler _)
       .refineToOrDie[IOException]
       .onInterrupt(ZIO.attempt(channel.close()).ignore)
 

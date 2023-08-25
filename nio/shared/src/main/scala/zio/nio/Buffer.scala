@@ -13,7 +13,6 @@ import java.nio.{
   LongBuffer => JLongBuffer,
   ShortBuffer => JShortBuffer
 }
-import scala.reflect.ClassTag
 
 /**
  * Mutable buffer of value elements.

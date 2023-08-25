@@ -10,7 +10,6 @@ import java.io.IOException
 import java.nio.channels.{SelectionKey => JSelectionKey, Selector => JSelector}
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
-import scala.annotation.nowarn
 
 /**
  * A multiplexor of `SelectableChannel` objects.
@@ -28,7 +27,6 @@ final class Selector(private[nio] val selector: JSelector) extends IOCloseable {
   def provider(implicit trace: Trace): UIO[SelectorProvider] =
     ZIO.succeed(selector.provider()).map(new SelectorProvider(_))
 
-  @nowarn
   def keys(implicit trace: Trace): UIO[Set[SelectionKey]] =
     ZIO
       .succeed(selector.keys())
@@ -41,7 +39,6 @@ final class Selector(private[nio] val selector: JSelector) extends IOCloseable {
    * an object to the key set will cause an `UnsupportedOperationException` to be thrown. The selected-key set is not
    * thread-safe.
    */
-  @nowarn
   def selectedKeys(implicit trace: Trace): UIO[mutable.Set[SelectionKey]] =
     ZIO
       .succeed(selector.selectedKeys())

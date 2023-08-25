@@ -347,7 +347,7 @@ object Files {
   def lines(path: Path, charset: Charset = Charset.Standard.utf8)(implicit
     trace: Trace
   ): ZStream[Any, IOException, String] =
-    ZStream
+    ZStream.
       .fromJavaStreamScoped(
         ZIO.fromAutoCloseable(attemptBlocking(JFiles.lines(path.javaPath, charset.javaCharset)))
       )
