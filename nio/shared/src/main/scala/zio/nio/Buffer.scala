@@ -374,7 +374,9 @@ object Buffer {
    *   The number of bytes to allocate.
    */
   def byte(capacity: Int)(implicit trace: Trace): UIO[ByteBuffer] =
-    ZIO.succeed(byteFromJava(JByteBuffer.allocate(capacity)))
+    ZIO.succeed(byteFromJava(JByteBuffer.allocate(capacity))).catchSomeDefect {
+      case e: NegativeArraySizeException => ZIO.succeed(throw new IllegalArgumentException())
+    }
 
   /**
    * Creates a new array-backed buffer containing data copied from a chunk.
