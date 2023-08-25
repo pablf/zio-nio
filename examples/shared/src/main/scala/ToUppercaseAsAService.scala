@@ -3,7 +3,8 @@ package nio
 package examples
 
 import zio._
-import zio.nio.channels.{BlockingNioOps, ServerSocketChannel, SocketChannel}
+import zio.nio.channels.{BlockingNioOps, SocketChannel}import zio.nio.channels.{ServerSocketChannel, SocketChannel}
+
 import zio.nio.charset.Charset
 import zio.stream._
 
