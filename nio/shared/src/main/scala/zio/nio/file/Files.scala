@@ -2,7 +2,7 @@ package zio.nio.file
 
 import zio.ZIO.attemptBlocking
 import zio.nio.charset.Charset
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.stream.{ZSink, ZStream}
 import zio.{Chunk, Scope, Trace, ZIO}
 
@@ -21,7 +21,6 @@ import java.nio.file.{
 import java.util.function.BiPredicate
 import scala.jdk.CollectionConverters._
 import scala.reflect._
-import zio.ZIOAspect
 
 object Files {
 

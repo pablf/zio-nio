@@ -1,7 +1,7 @@
 package zio.nio
 
-import zio.stacktracer.TracingImplicits.disableAutoTrace
-import zio.{IO, Trace, UIO, ZIO}
+
+import zio.{UIO, Trace, ZIO}
 
 import java.nio.{MappedByteBuffer => JMappedByteBuffer}
 

@@ -2,7 +2,7 @@ package zio.nio
 
 package channels
 
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.stream.{Stream, ZStream}
 import zio.{Chunk, IO, Trace, UIO, ZIO}
 

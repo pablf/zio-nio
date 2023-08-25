@@ -1,6 +1,5 @@
 package zio.nio
 
-import zio.stacktracer.TracingImplicits.disableAutoTrace
 import zio.{Chunk, Trace, UIO, ZIO}
 
 import java.nio.{

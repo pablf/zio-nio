@@ -2,7 +2,7 @@ package zio
 package nio
 package charset
 
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.stream.{ZChannel, ZPipeline}
 
 import java.nio.charset.{MalformedInputException, UnmappableCharacterException}

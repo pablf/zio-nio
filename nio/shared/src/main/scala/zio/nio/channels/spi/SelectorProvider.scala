@@ -1,7 +1,7 @@
 package zio.nio.channels.spi
 
 import zio.nio.channels._
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.{IO, Trace, ZIO}
 
 import java.io.IOException

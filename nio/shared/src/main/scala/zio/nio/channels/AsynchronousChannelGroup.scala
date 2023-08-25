@@ -1,7 +1,7 @@
 package zio.nio.channels
 
 import zio._
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 
 import java.io.IOException
 import java.nio.channels.spi.{AsynchronousChannelProvider => JAsynchronousChannelProvider}

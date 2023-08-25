@@ -3,7 +3,7 @@ package channels
 
 import com.github.ghik.silencer.silent
 import zio.nio.channels.spi.SelectorProvider
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.{Duration, IO, Scope, Trace, UIO, ZIO}
 
 import java.io.IOException

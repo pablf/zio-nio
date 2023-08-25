@@ -1,7 +1,6 @@
 package zio
 
 import com.github.ghik.silencer.silent
-import zio.stream.{ZChannel, ZPipeline, ZSink, ZStream}
 
 import java.io.EOFException
 

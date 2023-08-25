@@ -1,9 +1,8 @@
 package zio.nio.channels
 
 import zio._
-import zio.nio.Buffer.byteFromJava
 import zio.nio.{Buffer, ByteBuffer}
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.stream.{ZSink, ZStream}
 
 import java.io.IOException

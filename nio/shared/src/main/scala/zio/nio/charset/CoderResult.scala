@@ -2,7 +2,7 @@ package zio
 package nio
 package charset
 
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 
 import java.nio.{charset => j}
 

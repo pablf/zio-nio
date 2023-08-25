@@ -3,7 +3,7 @@ package channels
 
 import zio.nio.channels.SelectionKey.Operation
 import zio.nio.channels.spi.SelectorProvider
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.{Exit, Fiber, IO, Scope, Trace, UIO, ZIO}
 
 import java.io.IOException

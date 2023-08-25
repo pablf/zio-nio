@@ -3,7 +3,7 @@ package zio.nio.channels
 import com.github.ghik.silencer.silent
 import zio.nio.file.Path
 import zio.nio.{ByteBuffer, IOCloseableManagement, MappedByteBuffer}
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.{IO, Scope, Trace, ZIO}
 
 import java.io.IOException

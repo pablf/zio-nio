@@ -1,6 +1,6 @@
 package zio.nio
 
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 
 import java.net.{InterfaceAddress => JInterfaceAddress}
 

@@ -1,7 +1,7 @@
 package zio.nio
 
 import com.github.ghik.silencer.silent
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.{IO, Trace, ZIO}
 
 import java.net.{NetworkInterface => JNetworkInterface, SocketException}

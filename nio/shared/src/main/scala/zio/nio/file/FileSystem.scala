@@ -2,7 +2,7 @@ package zio.nio
 package file
 
 import zio.ZIO.attemptBlockingIO
-import zio.stacktracer.TracingImplicits.disableAutoTrace
+
 import zio.{IO, Scope, Trace, UIO, ZIO}
 
 import java.io.IOException
