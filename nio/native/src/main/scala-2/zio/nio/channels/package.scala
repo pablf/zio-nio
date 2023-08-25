@@ -5,6 +5,7 @@ import zio.{Trace, ZIO}
 
 import java.io.IOException
 
+
 package object channels {
 
   implicit final class BlockingNioOps[-R, +C <: BlockingChannel](
@@ -22,20 +23,5 @@ package object channels {
 
   }
 
-  implicit final class NonBlockingNioOps[-R, +C <: SelectableChannel](
-    private val underlying: ZIO[R, IOException, C]
-  ) extends AnyVal {
-
-    def flatMapNioNonBlocking[R1, E >: IOException, A](f: (C, C#NonBlockingOps) => ZIO[R1, E, A])(implicit
-      trace: Trace
-    ): ZIO[R with R1, E, A] =
-      underlying.flatMap(c => c.flatMapNonBlocking(f(c, _)))
-
-    def flatMapNioNonBlockingOps[R1, E >: IOException, A](f: C#NonBlockingOps => ZIO[R1, E, A])(implicit
-      trace: Trace
-    ): ZIO[R with R1, E, A] =
-      flatMapNioNonBlocking((_, ops) => f(ops))
-
-  }
 
 }

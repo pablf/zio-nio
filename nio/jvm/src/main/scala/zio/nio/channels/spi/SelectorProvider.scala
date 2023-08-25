@@ -8,6 +8,12 @@ import java.io.IOException
 import java.net.ProtocolFamily
 import java.nio.channels.spi.{SelectorProvider => JSelectorProvider}
 import java.nio.{channels => jc}
+import zio.nio.channels.{SocketChannel, ServerSocketChannel}
+import zio.nio.channels.Selector
+import zio.nio.channels.DatagramChannel
+import zio.nio.channels.Pipe
+
+
 
 final class SelectorProvider(private val selectorProvider: JSelectorProvider) {
 

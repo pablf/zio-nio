@@ -14,6 +14,10 @@ import java.nio.channels.{
   ServerSocketChannel => JServerSocketChannel,
   SocketChannel => JSocketChannel
 }
+import zio.nio.channels.Selector
+import zio.nio.channels.SelectionKey
+
+
 
 /**
  * A channel that can be multiplexed via a [[zio.nio.channels.Selector]].
