@@ -3,7 +3,6 @@ package zio.nio.file
 import zio.{Trace, ZIO, Scope}
 import java.io.IOException
 import java.nio.{file => jf}
-import zio.nio.file.WatchService
 import zio.nio.IOCloseableManagement
 
 trait FileSystemPlatformSpecific { self =>
