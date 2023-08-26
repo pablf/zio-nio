@@ -13,8 +13,6 @@ import zio.nio.channels.Selector
 import zio.nio.channels.DatagramChannel
 import zio.nio.channels.Pipe
 
-
-
 final class SelectorProvider(private val selectorProvider: JSelectorProvider) {
 
   def openDatagramChannel(implicit trace: Trace): IO[IOException, DatagramChannel] =

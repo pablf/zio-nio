@@ -1,10 +1,8 @@
 package zio.nio
 
-
 import zio.{Trace, ZIO}
 
 import java.io.IOException
-
 
 package object channels {
 
@@ -22,6 +20,5 @@ package object channels {
     )(implicit trace: Trace): ZIO[R with R1 with Any, E, A] = flatMapNioBlocking((_, ops) => f(ops))
 
   }
-
 
 }

@@ -16,7 +16,6 @@ import java.nio.file.{
 import java.util.concurrent.TimeUnit
 import scala.jdk.CollectionConverters._
 
-
 trait Watchable {
   protected def javaWatchable: JWatchable
 

@@ -1,6 +1,5 @@
 package zio.nio.channels
 
-
 import zio.nio.file.Path
 import zio.nio.{ByteBuffer, IOCloseableManagement, MappedByteBuffer}
 

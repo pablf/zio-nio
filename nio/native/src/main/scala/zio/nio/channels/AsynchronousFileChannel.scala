@@ -3,7 +3,6 @@ package channels
 import zio._
 import zio.nio.file.Path
 
-
 import java.io.IOException
 import java.nio.channels.{AsynchronousFileChannel => JAsynchronousFileChannel}
 import java.nio.file.OpenOption
@@ -15,9 +14,6 @@ final class AsynchronousFileChannel(protected val channel: JAsynchronousFileChan
 
   def force(metaData: Boolean)(implicit trace: Trace): IO[IOException, Unit] =
     ZIO.attempt(channel.force(metaData)).refineToOrDie[IOException]
-
-
-
 
   def size(implicit trace: Trace): IO[IOException, Long] = ZIO.attempt(channel.size()).refineToOrDie[IOException]
 

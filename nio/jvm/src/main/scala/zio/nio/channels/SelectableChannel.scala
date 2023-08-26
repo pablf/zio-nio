@@ -15,8 +15,6 @@ import java.nio.channels.{
   SocketChannel => JSocketChannel
 }
 
-
-
 /**
  * A channel that can be multiplexed via a [[zio.nio.channels.Selector]].
  */

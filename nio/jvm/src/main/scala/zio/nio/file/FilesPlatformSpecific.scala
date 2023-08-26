@@ -8,7 +8,7 @@ import java.io.IOException
 
 trait FilesPlatformSpecific {
 
-    def deleteRecursive(path: Path)(implicit trace: Trace): ZIO[Any, IOException, Long] =
+  def deleteRecursive(path: Path)(implicit trace: Trace): ZIO[Any, IOException, Long] =
     newDirectoryStream(path).mapZIO { p =>
       for {
         deletedInSubDirectory <- deleteRecursive(p).whenZIO(isDirectory(p)).map(_.getOrElse(0L))

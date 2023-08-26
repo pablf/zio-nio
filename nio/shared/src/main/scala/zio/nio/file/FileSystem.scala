@@ -11,7 +11,9 @@ import java.nio.file.attribute.UserPrincipalLookupService
 import java.nio.{file => jf}
 import scala.jdk.CollectionConverters._
 
-final class FileSystem private (private val javaFileSystem: jf.FileSystem) extends IOCloseable with FileSystemPlatformSpecific {
+final class FileSystem private (private val javaFileSystem: jf.FileSystem)
+    extends IOCloseable
+    with FileSystemPlatformSpecific {
 
   override def jFileSystem: jf.FileSystem = javaFileSystem
 

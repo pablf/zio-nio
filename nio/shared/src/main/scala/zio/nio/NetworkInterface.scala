@@ -1,7 +1,5 @@
 package zio.nio
 
-
-
 import zio.{IO, Trace, ZIO}
 
 import java.net.{NetworkInterface => JNetworkInterface, SocketException}
@@ -11,14 +9,11 @@ class NetworkInterface private[nio] (private[nio] val jNetworkInterface: JNetwor
 
   def name: String = jNetworkInterface.getName
 
-  
   def inetAddresses: List[InetAddress] = jNetworkInterface.getInetAddresses.asScala.map(new InetAddress(_)).toList
 
-  
   def interfaceAddresses: List[InterfaceAddress] =
     jNetworkInterface.getInterfaceAddresses.asScala.map(new InterfaceAddress(_)).toList
 
-  
   def subInterfaces: Iterator[NetworkInterface] =
     jNetworkInterface.getSubInterfaces.asScala.map(new NetworkInterface(_))
 
@@ -69,7 +64,6 @@ object NetworkInterface {
       .refineToOrDie[SocketException]
       .map(new NetworkInterface(_))
 
-  
   def networkInterfaces(implicit trace: Trace): IO[SocketException, Iterator[NetworkInterface]] =
     ZIO
       .attempt(JNetworkInterface.getNetworkInterfaces.asScala)

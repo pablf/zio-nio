@@ -1,7 +1,5 @@
 package zio.nio
 
-
-
 import java.nio.file.{Path => JPath, WatchEvent}
 
 package object file {
