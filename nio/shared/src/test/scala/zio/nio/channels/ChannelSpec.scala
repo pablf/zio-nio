@@ -22,6 +22,6 @@ object ChannelSpec extends BaseSpec {
         test("passes through success") {
           assertZIO(ZIO.succeed(42).eofCheck.exit)(succeeds(equalTo(42)))
         }
-      )
+      ),
     )
 }

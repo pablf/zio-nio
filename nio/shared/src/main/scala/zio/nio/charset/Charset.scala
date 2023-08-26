@@ -2,6 +2,8 @@ package zio
 package nio
 package charset
 
+
+
 import java.nio.charset.IllegalCharsetNameException
 import java.nio.{charset => j}
 import java.{util => ju}
@@ -80,13 +82,9 @@ object Charset {
   def fromJava(javaCharset: j.Charset): Charset = new Charset(javaCharset)
 
   val availableCharsets: Map[String, Charset] =
-    j.Charset
-      .availableCharsets()
-      .asScala
-      .map { case (s, charset) =>
-        (s, new Charset(charset))
-      }
-      .toMap
+    j.Charset.availableCharsets().asScala.map {
+      case (s, charset) => (s, new Charset(charset))
+    }.toMap
 
   val defaultCharset: Charset = fromJava(j.Charset.defaultCharset())
 

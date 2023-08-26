@@ -1,11 +1,13 @@
 package zio.nio.file
 
+
 import zio.{Chunk, Trace, ZIO}
 
 import java.io.{File, IOError, IOException}
 import java.net.URI
 import java.nio.file.{LinkOption, Path => JPath, Paths, WatchEvent, Watchable => JWatchable}
 import scala.jdk.CollectionConverters._
+
 
 final class Path private (private[nio] val javaPath: JPath) extends Watchable {
   import Path._

@@ -84,11 +84,11 @@ object FilesSpec extends BaseSpec {
       },
       test("deleteRecursive deletes subdirectories") {
         for {
-          outerDir <- Files.createTempDirectory(prefix = None, fileAttributes = Nil)
-          innerDir  = outerDir / "inner"
-          _        <- Files.createDirectory(innerDir)
+          outerDir  <- Files.createTempDirectory(prefix = None, fileAttributes = Nil)
+          innerDir   = outerDir / "inner"
+          _         <- Files.createDirectory(innerDir)
           //innerDir  <- Files.writeLines(innerDir / "file.txt", "test" :: Nil)
-          _         <- Files.writeLines(innerDir / "file.txt", "test" :: Nil)
+          _  <- Files.writeLines(innerDir / "file.txt", "test" :: Nil)
           _         <- Files.deleteRecursive(outerDir)
           isDeleted <- Files.notExists(outerDir)
         } yield assertTrue(isDeleted)

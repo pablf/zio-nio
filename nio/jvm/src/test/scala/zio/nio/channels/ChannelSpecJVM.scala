@@ -9,6 +9,7 @@ import java.io.IOException
 import java.nio.channels
 import java.{nio => jnio}
 
+
 object ChannelSpecJVM extends BaseSpec {
 
   override def spec =
